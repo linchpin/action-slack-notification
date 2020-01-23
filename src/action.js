@@ -6,14 +6,12 @@ if ( ! process.env.GITHUB_WORKSPACE ) {
 	require('dotenv').config({path:'.env'});
 }
 
-let contents = fs.readFileSync("template.json");
+let contents = fs.readFileSync("template-start.json");
 let json     = JSON.parse(contents);
 const moment = require('moment');
 
-if ( process.env.NOTIFICATION_ICON ) {
-
-} else {
-
+if ( ! process.env.NOTIFICATION_ICON ) {
+	process.env.NOTIFICATION_ICON = 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/in-progress.png';
 }
 
 const textMap = {

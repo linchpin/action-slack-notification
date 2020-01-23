@@ -8,11 +8,11 @@
 				{
 					"type": "image",
 					"image_url": "${NOTIFICATION_ICON}",
-					"alt_text": "notification icon"
+					"alt_text": "In-progress icon"
 				},
 				{
 					"type": "mrkdwn",
-					"text": "*${BUILD_STATUS}*: ${BUILD_STATUS_MESSAGE}"
+					"text": "${BUILD_STATUS_MESSAGE}"
 				}
 			]
 		},
