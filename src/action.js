@@ -10,6 +10,10 @@ let contents = fs.readFileSync("template-start.json");
 let json     = JSON.parse(contents);
 const moment = require('moment');
 
+if ( ! process.env.SITE_IMAGE_URL ) {
+	process.env.SITE_IMAGE_URL = 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/default-client-image.png';
+}
+
 if ( ! process.env.NOTIFICATION_ICON ) {
 	process.env.NOTIFICATION_ICON = 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/in-progress.png';
 }
