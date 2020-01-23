@@ -1,6 +1,6 @@
 {
 	"channel" : "${CHANNEL_ID}",
-	"text": "Deployment completed",
+	"text": "Deployment completed!",
 	"blocks": [
 		{
 			"type": "context",
