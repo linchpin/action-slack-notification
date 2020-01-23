@@ -1,0 +1,5 @@
+.DS_Store
+.idea
+release-notify-action.iml
+node_modules
+.env
