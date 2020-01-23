@@ -6,7 +6,7 @@ if ( ! process.env.GITHUB_WORKSPACE ) {
 	require('dotenv').config({path:'.env'});
 }
 
-let contents = fs.readFileSync("template-start.json");
+let contents = fs.readFileSync("./template-start.json");
 let json     = JSON.parse(contents);
 const moment = require('moment');
 
