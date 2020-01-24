@@ -2,14 +2,45 @@ const log = require('loglevel');
 const fs = require('fs');
 const request = require('request');
 
+let folder = "/action/";
+
+
+// For local development
 if ( ! process.env.GITHUB_WORKSPACE ) {
 	require('dotenv').config({path:'.env'});
+	folder = "";
 }
 
-let contents = fs.readFileSync("/action/template-start.json");
+let contents = fs.readFileSync(folder + "template.json");
+
 let json     = JSON.parse(contents);
 const moment = require('moment');
 const tz     = require('moment-timezone');
+
+if ( process.env.CHANGELOG ) {
+	json.blocks.push( {
+		"type": "divider"
+	});
+	json.blocks.push( {
+		"type": "section",
+		"text": {
+			"type": "mrkdwn",
+			"text": process.env.CHANGELOG
+		} 
+	});
+}
+
+json.blocks.push( {
+	"type": "context",
+	"elements": [
+		{
+			"type": "mrkdwn",
+			"text": "${TIMESTAMP}"
+		}
+	]
+} );
+
+contents = JSON.stringify( json );
 
 if ( ! process.env.SITE_IMAGE_URL ) {
 	process.env.SITE_IMAGE_URL = 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/default-client-image.png';

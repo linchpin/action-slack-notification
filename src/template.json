@@ -30,15 +30,6 @@
 				"image_url": "${SITE_IMAGE_URL}",
 				"alt_text": "Site image"
 			}
-		},
-		{
-			"type": "context",
-			"elements": [
-				{
-					"type": "mrkdwn",
-					"text": "${TIMESTAMP}"
-				}
-			]
 		}
 	]
 }
