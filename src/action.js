@@ -2,8 +2,8 @@ const log = require('loglevel');
 const fs = require('fs');
 const request = require('request');
 
+let event  = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'))
 let folder = "/action/";
-
 
 // For local development
 if ( ! process.env.GITHUB_WORKSPACE ) {
@@ -17,17 +17,23 @@ let json     = JSON.parse(contents);
 const moment = require('moment');
 const tz     = require('moment-timezone');
 
-if ( process.env.CHANGELOG ) {
-	json.blocks.push( {
-		"type": "divider"
-	});
-	json.blocks.push( {
-		"type": "section",
-		"text": {
-			"type": "mrkdwn",
-			"text": "*New website improvements*\n" + process.env.CHANGELOG
-		} 
-	});
+if ( process.env.VERSION && process.env.BUILD_STATUS === 'completed' ) {
+	const readme_file = fs.readFileSync(process.env.HOME + '/Desktop/workflows/README.md', 'utf8');
+	const regex = /##\s?Changelog\s*(?:(?:###)\s(v\d\.\d(?:\.\d)?))([\s\S]*?)(?:(?:###)\s(?:v\d\.\d(?:\.\d)?)){1}/;
+	const changes = readme_file.match(regex);
+
+	if ( (typeof changes[1] !== 'undefined' && 'refs/tags/' + changes[1] === event.ref ) && ( typeof changes[2] !== 'undefined' ) ) {
+		json.blocks.push( {
+			"type": "divider"
+		});
+		json.blocks.push( {
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*New website improvements*\n" + changes[2]
+			} 
+		});
+	}
 }
 
 json.blocks.push( {
