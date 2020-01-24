@@ -25,7 +25,7 @@ if ( process.env.CHANGELOG ) {
 		"type": "section",
 		"text": {
 			"type": "mrkdwn",
-			"text": process.env.CHANGELOG
+			"text": "*New website improvements*\n" + process.env.CHANGELOG
 		} 
 	});
 }
