@@ -62,12 +62,15 @@ if ( ! process.env.NOTIFICATION_ICON ) {
 	switch( process.env.BUILD_STATUS ) {
 	  case 'completed':
 	    process.env.NOTIFICATION_ICON = 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/success.png';
+	    process.env.BUILD_STATUS_SUMMARY = 'Deployment completed: Code has successfully been deployed to ' + process.env.ENVIRONMENT;
 	    break;
 	  case 'failed':
 	    process.env.NOTIFICATION_ICON = 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/fail.png';
+	    process.env.BUILD_STATUS_SUMMARY = 'Deployment failed: There was an issue trying to deploy to ' + process.env.ENVIRONMENT;
 	    break;
 	  default:
 	    process.env.NOTIFICATION_ICON = 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/in-progress.png';
+	    process.env.BUILD_STATUS_SUMMARY = 'Deployment started: Preparing to deploy to ' + process.env.ENVIRONMENT;
 	}
 }
 

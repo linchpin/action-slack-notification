@@ -1,6 +1,6 @@
 {
 	"channel" : "${CHANNEL_ID}",
-	"text": "Deployment started...",
+	"text": "${BUILD_STATUS_SUMMARY}",
 	"blocks": [
 		{
 			"type": "context",
