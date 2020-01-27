@@ -18,7 +18,7 @@ const moment = require('moment');
 const tz     = require('moment-timezone');
 
 if ( process.env.VERSION && process.env.BUILD_STATUS === 'completed' ) {
-	const readme_file = fs.readFileSync(process.env.HOME + '/Desktop/workflows/README.md', 'utf8');
+	const readme_file = fs.readFileSync(process.env.HOME + '/build/README.md', 'utf8');
 	const regex = /#+\s?Changelog\s*(?:(?:#{2,})\s(v\d\.\d(?:\.\d)?))([\s\S]*?)((?:(?:#+)\s(?:v\d\.\d(?:\.\d)?))|#+|$){1}/;
 	const changes = readme_file.match(regex);
 
