@@ -36,7 +36,7 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*New website improvements*\n```" + changes[2].trim() + "```"
+				"text": "*New website improvements in " + changes[1] + "*\n```" + changes[2].trim() + "```"
 			} 
 		});
 	}
