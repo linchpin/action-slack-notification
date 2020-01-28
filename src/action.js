@@ -84,7 +84,8 @@ const textMap = {
   COMMITTER: process.env.GITHUB_ACTOR,
   SITE_IMAGE_URL: process.env.SITE_IMAGE_URL,
   TIMESTAMP: moment().tz('America/New_York').format('MMMM Do YYYY, h:mm:ss A'),
-  CHANNEL_ID: process.env.CHANNEL_ID
+  CHANNEL_ID: process.env.CHANNEL_ID,
+  BUILD_STATUS_SUMMARY: process.env.BUILD_STATUS_SUMMARY
 }
 
 const parse = (template, textMap) => {
