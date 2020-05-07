@@ -1,6 +1,6 @@
 ## Slack Build Notification
 
-This action sends a notification when a build starts, finishes, or fails.
+This action sends a slack notification to a defined `#channel` when a build starts, finishes, or fails.
 
 ## Developing locally
 
