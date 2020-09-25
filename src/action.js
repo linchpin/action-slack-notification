@@ -29,6 +29,11 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 	const changes = readme_file.match(regex);
 
 	console.log( 'Begin changes comparison' );
+	
+	console.log( '--Changes Start--');
+	console.log( changes );
+	console.log( '--Changes End--');
+	
 	if ( ! changes ) {
 		console.log( 'No Changes Found' );
 		json.blocks.push( {
@@ -42,7 +47,7 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 			} 
 		});
 	} else {
-		console.log( 'Found Changes is README file' );
+		console.log( 'Found Changes in README file' );
 		if ( (typeof changes[1] !== 'undefined' && 'refs/tags/' + changes[1] === event.ref ) && ( typeof changes[2] !== 'undefined' ) ) {
 			json.blocks.push( {
 				"type": "divider"
