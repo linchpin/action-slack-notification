@@ -28,7 +28,9 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 	const regex = /#+\s?Changelog\s*(?:(?:#{2,})\s(v\d\.\d(?:\.\d)?))([\s\S]*?)((?:(?:#+)\s(?:v\d\.\d(?:\.\d)?))|#+|$){1}/;
 	const changes = readme_file.match(regex);
 
+	console.log( 'Begin changes comparison' );
 	if ( ! changes ) {
+		console.log( 'No Changes Found' );
 		json.blocks.push( {
 			"type": "divider"
 		});
@@ -40,7 +42,7 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 			} 
 		});
 	} else {
-
+		console.log( 'Found Changes is README file' );
 		if ( (typeof changes[1] !== 'undefined' && 'refs/tags/' + changes[1] === event.ref ) && ( typeof changes[2] !== 'undefined' ) ) {
 			json.blocks.push( {
 				"type": "divider"
@@ -54,6 +56,7 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 			});
 		}
 	}
+	console.log( 'Comparison complete!' );
 }
 
 json.blocks.push( {
