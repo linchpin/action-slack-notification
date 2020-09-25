@@ -29,10 +29,6 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 	const changes = readme_file.match(regex);
 
 	if ( ! changes ) {
-		return;
-	}
-
-	if ( (typeof changes[1] !== 'undefined' && 'refs/tags/' + changes[1] === event.ref ) && ( typeof changes[2] !== 'undefined' ) ) {
 		json.blocks.push( {
 			"type": "divider"
 		});
@@ -40,9 +36,23 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 			"type": "section",
 			"text": {
 				"type": "mrkdwn",
-				"text": "*New website improvements in " + changes[1] + "*\n```" + changes[2].trim() + "```"
+				"text": "*No changes were specified in this release*"
 			} 
 		});
+	} else {
+
+		if ( (typeof changes[1] !== 'undefined' && 'refs/tags/' + changes[1] === event.ref ) && ( typeof changes[2] !== 'undefined' ) ) {
+			json.blocks.push( {
+				"type": "divider"
+			});
+			json.blocks.push( {
+				"type": "section",
+				"text": {
+					"type": "mrkdwn",
+					"text": "*New website improvements in " + changes[1] + "*\n```" + changes[2].trim() + "```"
+				} 
+			});
+		}
 	}
 }
 
