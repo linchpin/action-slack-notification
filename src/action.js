@@ -48,6 +48,14 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 		});
 	} else {
 		console.log( 'Found Changes in README file' );
+		console.log( '--' );
+		console.log( 'It looks for: ( typeof changes[1] !== undefined && refs/tags/ + changes[1] === event.ref ) && ( typeof changes[2] !== undefined )' );
+		console.log( 'typeof changes[1] = ' + typeof changes[1] );
+		console.log( 'event.ref is = ' + event.ref);
+		console.log( 'it should be = ' + 'refs/tags/' + changes[1] );
+		console.log( 'typeof changes[2] = ' + typeof changes[2] );
+		console.log( '--' );
+		
 		if ( (typeof changes[1] !== 'undefined' && 'refs/tags/' + changes[1] === event.ref ) && ( typeof changes[2] !== 'undefined' ) ) {
 			json.blocks.push( {
 				"type": "divider"
