@@ -15,6 +15,7 @@ let contents = fs.readFileSync(folder + "template.json");
 
 let json     = JSON.parse(contents);
 let dir      = '';
+let failmsg  = '';
 const moment = require('moment');
 const tz     = require('moment-timezone');
 
@@ -40,9 +41,11 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 				"type": "section",
 				"text": {
 					"type": "mrkdwn",
-					"text": "*No changes were specified in this release. The release tag was " + event.ref + " but the latest note is from " + changes[1] + " *"
+					"text": "*No changes were specified in this release*"
 				} 
 			});
+			
+			failmsg = "*The build has succeeded*, but the release tag was " + event.ref + " but the latest changelog listed is from " + changes[1]"
 		} else {
 			console.log( 'Found Changes in README file' );
 			console.log( '--' );
@@ -146,3 +149,34 @@ request.post({
    console.log("response: ", JSON.stringify(response));
    console.log("body: ",body);
 });
+
+if ( failmsg !== '' ) {
+	
+	const textMapFail = {
+	  NOTIFICATION_ICON: process.env.NOTIFICATION_ICON,
+	  BUILD_STATUS: 'failed',
+	  BUILD_STATUS_MESSAGE: process.env.BUILD_STATUS_MESSAGE,
+	  ENVIRONMENT: process.env.ENVIRONMENT,
+	  SITE_URL: process.env.SITE_URL,
+	  SITE_URL_SHORT: process.env.SITE_URL.replace(/(^\w+:|^)\/\//, ''),
+	  COMMITTER: process.env.GITHUB_ACTOR,
+	  SITE_IMAGE_URL: process.env.SITE_IMAGE_URL,
+	  TIMESTAMP: moment().tz('America/New_York').format('MMMM Do YYYY, h:mm:ss A'),
+	  CHANNEL_ID: 'C01D13A6G1W',
+	  BUILD_STATUS_SUMMARY: process.env.BUILD_STATUS_SUMMARY
+	}
+	
+	const parsedFail = parse(contents.toString(), textMapFail)
+	
+	request.post({
+	   "url": url,
+	   "headers": headers,
+	   "body": parsedFail + ' ' + failmsg
+	}, (err, response, body) => {
+	   if (err) {
+	       reject(err);
+	   }
+	   console.log("response: ", JSON.stringify(response));
+	   console.log("body: ",body);
+	});
+}
