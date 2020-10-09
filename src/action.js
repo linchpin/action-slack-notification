@@ -31,9 +31,12 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 
 	console.log( 'Begin changes comparison' );
 	
+	const releaseTag = event.ref;
+	
 	if ( process.env.ENVIRONMENT === 'production' ) {
-		if ( event.ref !== 'refs/tags/' + changes[1] ) {
-			console.log( 'No Release Information Found' );
+		if ( releaseTag !== 'refs/tags/' + changes[1] ) {
+			console.log( 'Release Mismatch' );
+			
 			json.blocks.push( {
 				"type": "divider"
 			});
@@ -45,7 +48,8 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 				} 
 			});
 			
-			failmsg = "*The build has succeeded*, but the release tag was " + event.ref + ". The latest changelog listed is from " + changes[1] + "*";
+			failmsg = "The build has succeeded, but the release tag was " + releaseTag.replace('refs/tags/', '') + ". The latest changelog listed is from " + changes[1];
+			
 		} else {
 			console.log( 'Found Changes in README file' );
 			console.log( '--' );
@@ -168,7 +172,7 @@ if ( failmsg !== '' ) {
 	const textMapFail = {
 	  NOTIFICATION_ICON: 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/fail.png',
 	  BUILD_STATUS: 'failed',
-	  BUILD_STATUS_MESSAGE: process.env.BUILD_STATUS_MESSAGE,
+	  BUILD_STATUS_MESSAGE: 'Deployment Issue: Code deployed to ' + process.env.ENVIRONMENT + ', but an issue was found',
 	  ENVIRONMENT: process.env.ENVIRONMENT,
 	  SITE_URL: process.env.SITE_URL,
 	  SITE_URL_SHORT: process.env.SITE_URL.replace(/(^\w+:|^)\/\//, ''),
@@ -180,6 +184,7 @@ if ( failmsg !== '' ) {
 	}
 	
 	const parsedFail = parse(contents.toString(), textMapFail)
+	console.log( ' ' );
 	
 	request.post({
 	   "url": url,
