@@ -45,7 +45,7 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 				} 
 			});
 			
-			failmsg = "*The build has succeeded*, but the release tag was " + event.ref + " but the latest changelog listed is from " + changes[1] + "*";
+			failmsg = "*The build has succeeded*, but the release tag was " + event.ref + ". The latest changelog listed is from " + changes[1] + "*";
 		} else {
 			console.log( 'Found Changes in README file' );
 			console.log( '--' );
@@ -102,7 +102,7 @@ if ( ! process.env.NOTIFICATION_ICON ) {
 	  default:
 	    process.env.NOTIFICATION_ICON = 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/in-progress.png';
 	    process.env.BUILD_STATUS_SUMMARY = 'Deployment started: Preparing to deploy to ' + process.env.ENVIRONMENT;
-	}
+	}	
 }
 
 const textMap = {
@@ -152,8 +152,21 @@ request.post({
 
 if ( failmsg !== '' ) {
 	
+	json.blocks.push( {
+		"type": "divider"
+	});
+	json.blocks.push( {
+		"type": "section",
+		"text": {
+			"type": "mrkdwn",
+			"text": "*" + failmsg + "*"
+		} 
+	});
+	
+	contents = JSON.stringify( json );
+	
 	const textMapFail = {
-	  NOTIFICATION_ICON: process.env.NOTIFICATION_ICON,
+	  NOTIFICATION_ICON: 'https://raw.githubusercontent.com/linchpin/action-slack-notification/master/images/fail.png',
 	  BUILD_STATUS: 'failed',
 	  BUILD_STATUS_MESSAGE: process.env.BUILD_STATUS_MESSAGE,
 	  ENVIRONMENT: process.env.ENVIRONMENT,
@@ -163,7 +176,7 @@ if ( failmsg !== '' ) {
 	  SITE_IMAGE_URL: process.env.SITE_IMAGE_URL,
 	  TIMESTAMP: moment().tz('America/New_York').format('MMMM Do YYYY, h:mm:ss A'),
 	  CHANNEL_ID: 'C01D13A6G1W',
-	  BUILD_STATUS_SUMMARY: process.env.BUILD_STATUS_SUMMARY
+	  BUILD_STATUS_SUMMARY: 'Deployment Issue: Code deployed to ' + process.env.ENVIRONMENT + ', but an issue was found'
 	}
 	
 	const parsedFail = parse(contents.toString(), textMapFail)
@@ -171,7 +184,7 @@ if ( failmsg !== '' ) {
 	request.post({
 	   "url": url,
 	   "headers": headers,
-	   "body": parsedFail + ' ' + failmsg
+	   "body": parsedFail
 	}, (err, response, body) => {
 	   if (err) {
 	       reject(err);
