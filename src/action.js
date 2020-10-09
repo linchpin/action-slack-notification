@@ -30,33 +30,9 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 
 	console.log( 'Begin changes comparison' );
 	
-	console.log( '--Changes Start--');
-	console.log( changes );
-	console.log( '--Changes End--');
-	
-	if ( ! changes ) {
-		console.log( 'No Changes Found' );
-		json.blocks.push( {
-			"type": "divider"
-		});
-		json.blocks.push( {
-			"type": "section",
-			"text": {
-				"type": "mrkdwn",
-				"text": "*No changes were specified in this release*"
-			} 
-		});
-	} else {
-		console.log( 'Found Changes in README file' );
-		console.log( '--' );
-		console.log( 'It looks for: ( typeof changes[1] !== undefined && refs/tags/ + changes[1] === event.ref ) && ( typeof changes[2] !== undefined )' );
-		console.log( 'typeof changes[1] = ' + typeof changes[1] );
-		console.log( 'event.ref is = ' + event.ref);
-		console.log( 'it should be = ' + 'refs/tags/' + changes[1] );
-		console.log( 'typeof changes[2] = ' + typeof changes[2] );
-		console.log( '--' );
-		
-		if ( (typeof changes[1] !== 'undefined' && 'refs/tags/' + changes[1] === event.ref ) && ( typeof changes[2] !== 'undefined' ) ) {
+	if ( process.env.ENVIRONMENT === 'production' ) {
+		if ( event.ref !== 'refs/tags/' + changes[1] ) {
+			console.log( 'No Release Information Found' );
 			json.blocks.push( {
 				"type": "divider"
 			});
@@ -64,12 +40,34 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 				"type": "section",
 				"text": {
 					"type": "mrkdwn",
-					"text": "*New website improvements in " + changes[1] + "*\n```" + changes[2].trim() + "```"
+					"text": "*No changes were specified in this release. The release tag was " + event.ref + " but the latest note is from " + changes[1] + " *"
 				} 
 			});
+		} else {
+			console.log( 'Found Changes in README file' );
+			console.log( '--' );
+			console.log( 'It looks for: ( typeof changes[1] !== undefined && refs/tags/ + changes[1] === event.ref ) && ( typeof changes[2] !== undefined )' );
+			console.log( 'typeof changes[1] = ' + typeof changes[1] );
+			console.log( 'event.ref is = ' + event.ref);
+			console.log( 'it should be = ' + 'refs/tags/' + changes[1] );
+			console.log( 'typeof changes[2] = ' + typeof changes[2] );
+			console.log( '--' );
+
+			if ( (typeof changes[1] !== 'undefined' && 'refs/tags/' + changes[1] === event.ref ) && ( typeof changes[2] !== 'undefined' ) ) {
+				json.blocks.push( {
+					"type": "divider"
+				});
+				json.blocks.push( {
+					"type": "section",
+					"text": {
+						"type": "mrkdwn",
+						"text": "*New website improvements in " + changes[1] + "*\n```" + changes[2].trim() + "```"
+					} 
+				});
+			}
 		}
+		console.log( 'Comparison complete!' );
 	}
-	console.log( 'Comparison complete!' );
 }
 
 json.blocks.push( {
