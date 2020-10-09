@@ -26,7 +26,7 @@ if ( process.env.WORKING_DIRECTORY ) {
 
 if ( process.env.BUILD_STATUS === 'completed' ) {
 	const readme_file = fs.readFileSync( '.' + dir + '/README.md', 'utf8');
-	const regex = /#+\s?Changelog\s*(?:(?:#{2,})\s(v\d\.\d(?:\.\d)?))([\s\S]*?)((?:(?:#+)\s(?:v\d\.\d(?:\.\d)?))|#+|$){1}/;
+	const regex = /#+\s?Changelog\s*(?:(?:#{2,})\s(v\d(?:\d)?\.\d(?:\d)?(?:\.\d)?(?:\d)?))([\s\S]*?)((?:(?:#+)\s(?:v\d(?:\d)?\.\d(?:\d)?(?:\.\d)?(?:\d)?))|#+|$){1}/;
 	const changes = readme_file.match(regex);
 
 	console.log( 'Begin changes comparison' );
