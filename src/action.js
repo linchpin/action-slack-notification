@@ -45,7 +45,7 @@ if ( process.env.BUILD_STATUS === 'completed' ) {
 				} 
 			});
 			
-			failmsg = "*The build has succeeded*, but the release tag was " + event.ref + " but the latest changelog listed is from " + changes[1]"
+			failmsg = "*The build has succeeded*, but the release tag was " + event.ref + " but the latest changelog listed is from " + changes[1] + "*";
 		} else {
 			console.log( 'Found Changes in README file' );
 			console.log( '--' );
