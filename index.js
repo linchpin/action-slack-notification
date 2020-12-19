@@ -198,7 +198,7 @@ const compareReleaseToReadme = () => {
  */
 async function run() {
     try {
-        let folder = "../templates/";
+        let folder = "/actions/templates/";
 
         // For local development
         if ( ! process.env.GITHUB_WORKSPACE ) {
