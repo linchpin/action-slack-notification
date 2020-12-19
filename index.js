@@ -43,7 +43,7 @@ const slackTemplate = {
 /**
  * Globally Accessible Vars
  */
-const GITHUB_EVENT = JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8'))
+const GITHUB_EVENT = JSON.parse( fs.readFileSync(process.env.GITHUB_EVENT_PATH, 'utf8' ) );
 
 /**
  * Base Asset URI
@@ -242,8 +242,8 @@ async function run() {
             folder = "";
         }
 
-        messageTemplate = slackTemplate;
-        json            = JSON.parse( messageTemplate );
+        messageTemplate = JSON.stringify( slackTemplate );
+        json            = slackTemplate;
 
         compareReleaseToReadme(); // Compare our release readme to the release in the
 
