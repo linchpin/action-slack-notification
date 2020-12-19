@@ -1,0 +1,41 @@
+{
+  "name": "action-slack-notification",
+  "version": "0.2.0",
+  "description": "JavaScript Slack Notification Action",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "prepare": "ncc build index.js -o dist --source-map --license licenses.txt",
+    "test": "jest",
+    "all": "npm run lint && npm run prepare && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linchpin/action-slack-notification.git"
+  },
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "JavaScript",
+    "Linchpin"
+  ],
+  "author": "Linchpin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/linchpin/action-slack-notification/issues"
+  },
+  "homepage": "https://github.com/linchpin/action-slack-notification#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
+    "loglevel": "^1.7.1",
+    "moment": "^2.29.1",
+    "moment-timezone": "^0.5.32"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.25.1",
+    "eslint": "^7.15.0",
+    "jest": "^26.6.3"
+  }
+}
