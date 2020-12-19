@@ -11,6 +11,42 @@ const axios   = __webpack_require__(6545);
 const moment  = __webpack_require__(9623);
 const tz      = __webpack_require__(7936);
 
+const slackTemplate = {
+  "channel" : "${CHANNEL_ID}",
+  "text": "${BUILD_STATUS_SUMMARY}",
+  "blocks": [
+    {
+      "type": "context",
+      "elements": [
+        {
+          "type": "image",
+          "image_url": "${NOTIFICATION_ICON}",
+          "alt_text": "In-progress icon"
+        },
+        {
+          "type": "mrkdwn",
+          "text": "${BUILD_STATUS_MESSAGE}"
+        }
+      ]
+    },
+    {
+      "type": "divider"
+    },
+    {
+      "type": "section",
+      "text": {
+        "type": "mrkdwn",
+        "text": "*Site:*\n<${SITE_URL}|${SITE_URL_SHORT}>\n\n*Environment*\n${ENVIRONMENT}\n\n*Committer*\n${COMMITTER}"
+      },
+      "accessory": {
+        "type": "image",
+        "image_url": "${SITE_IMAGE_URL}",
+        "alt_text": "Site image"
+      }
+    }
+  ]
+};
+
 /**
  * Globally Accessible Vars
  */
@@ -213,7 +249,7 @@ async function run() {
             folder = "";
         }
 
-        messageTemplate = fs.readFileSync( folder + 'slack.json' );
+        messageTemplate = slackTemplate;
         json            = JSON.parse( messageTemplate );
 
         compareReleaseToReadme(); // Compare our release readme to the release in the
