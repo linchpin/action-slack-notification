@@ -4,10 +4,9 @@ inputs:
   slack-channel:  # id of input
     description: 'What channel should we post our message to'
     required: true
-    default: 'World'
 outputs:
   time: # id of output
     description: 'The time we greeted you'
 runs:
-  using: 'node14'
+  using: 'node12'
   main: 'index.js'
