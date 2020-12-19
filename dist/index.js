@@ -205,7 +205,7 @@ const compareReleaseToReadme = () => {
  */
 async function run() {
     try {
-        let folder = "/action/";
+        let folder = "../templates/";
 
         // For local development
         if ( ! process.env.GITHUB_WORKSPACE ) {
@@ -213,7 +213,7 @@ async function run() {
             folder = "";
         }
 
-        messageTemplate = fs.readFileSync( folder + 'template.json' );
+        messageTemplate = fs.readFileSync( folder + 'slack.json' );
         json            = JSON.parse( messageTemplate );
 
         compareReleaseToReadme(); // Compare our release readme to the release in the
