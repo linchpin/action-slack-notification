@@ -6,7 +6,7 @@
     "dotenv": "^8.2.0",
     "loglevel": "^1.6.1",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "request": "^2.88.0",
     "request-promise": "^4.2.4"
   },
